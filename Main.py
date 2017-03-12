@@ -1,8 +1,9 @@
 
-import numpy
+import numpy 
 from gData import gData
 import matplotlib.pyplot as plt
 from GMM import GMM
+import scipy.stats as ss
 
     
 mu1=[1,2]
@@ -40,11 +41,28 @@ for i in range(100):
 	(rmus,rcoMs,rpis)=GMM(data,mus,coMs,pis)
 	print(rcoMs)
 	plt.scatter(data[:,0],data[:,1],s=50)
+	#draw the center of each gaussian 
 	for i in range(K):
 		plt.scatter(rmus[i,0],rmus[i,1], c=(0,0,0.8),s=200)
-	plt.pause(0.005)
-	plt.clf()
+
+	#draw contour
+	x = numpy.arange(-6, 6, 0.25)
+	y = numpy.arange(-6, 6, 0.25)
+	X, Y = numpy.meshgrid(x, y)
+	for j in range(K):
     
+		rv= ss.multivariate_normal(rmus[j],rcoMs[j])
+		#improve here
+		Z=numpy.zeros((len(x),len(y)))
+		for m in range(len(x)):
+			for n in range(len(y)):
+				Z[m][n]=rv.pdf([X[m][n],Y[m][n]])
+		plt.contour(X,Y,Z,2)
+
+	plt.pause(0.05)
+	
+	plt.clf()
+	
 	mus=rmus
 	coMs=rcoMs
 	pis=rpis
