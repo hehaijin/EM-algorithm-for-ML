@@ -32,6 +32,7 @@ def GMM(data, mus, coMs, pis):
 			rik[i][j]=rik[i][j]/sum
 	
 	
+	
 	#update mus 
 	for i in range(K):
 		for j in range(N):
@@ -54,8 +55,17 @@ def GMM(data, mus, coMs, pis):
 		for j in range(N):
 			rpis[i]=rpis[i]+rik[j][i]
 		rpis[i]=rpis[i]/N
+		
+	#calculate log likilihood
+	loglik=0
+	for i in range(N):
+		s=0
+		for j in range(K):
+			s=s+rik[i][j]* scipy.stats.multivariate_normal.pdf(data[i],rmus[j],rcoMs[j])
+		loglik=loglik+numpy.log(s)
+
 	
-	return (rmus,rcoMs,rpis)
+	return (rmus,rcoMs,rpis,loglik)
 
 
 

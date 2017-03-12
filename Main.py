@@ -33,13 +33,14 @@ for i in range(K):
 coMs=numpy.zeros((K,D,D))
 for i in range(K):
 	coMs[i]=numpy.identity(D)
-print(coMs)
+#print(coMs)
 pis=[0.3,0.3,0.4]
 plt.ion()
 	
 for i in range(100):
-	(rmus,rcoMs,rpis)=GMM(data,mus,coMs,pis)
-	print(rcoMs)
+	(rmus,rcoMs,rpis,loglik)=GMM(data,mus,coMs,pis)
+	#print(rcoMs)
+	print(loglik)
 	plt.scatter(data[:,0],data[:,1],s=50)
 	#draw the center of each gaussian 
 	for i in range(K):
