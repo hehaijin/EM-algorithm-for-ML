@@ -4,6 +4,7 @@ from gData import gData
 import matplotlib.pyplot as plt
 from GMM import GMM
 import scipy.stats as ss
+import json
 
     
 mu1=[1,2]
@@ -19,7 +20,12 @@ data3=gData(mu3,sigma3,600)
 
 
 data=data1+data2+data3
-data=numpy.array(data)
+data=numpy.array(data)  #convert to array in numpy
+
+#filename='data.json'
+#with open(filename,'w') as f_obj:
+#	json.dump(data,f_obj)
+
 #print(data)
 
 N=1200
@@ -35,10 +41,20 @@ for i in range(K):
 	coMs[i]=numpy.identity(D)
 #print(coMs)
 pis=[0.3,0.3,0.4]
+
+
+plt.subplot(121)
 plt.ion()
+
+#the logliks
+logliks=list()
+xaxis=list()
 	
 for i in range(100):
 	(rmus,rcoMs,rpis,loglik)=GMM(data,mus,coMs,pis)
+	logliks.append(loglik)
+	xaxis.append(i)
+	plt.subplot(121)
 	#print(rcoMs)
 	print(loglik)
 	plt.scatter(data[:,0],data[:,1],s=50)
@@ -64,11 +80,15 @@ for i in range(100):
 	
 	plt.clf()
 	
+
 	mus=rmus
 	coMs=rcoMs
 	pis=rpis
-			
-			
+	
+	plt.subplot(122)
+	plt.axis([0, 100, -7000, -3000])
+	plt.plot(xaxis,logliks)
+		
 				
 			
 
