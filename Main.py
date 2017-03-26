@@ -2,7 +2,7 @@
 import numpy 
 from gData import gData
 import matplotlib.pyplot as plt
-from GMM import GMM
+from GMM import GMMiterate
 import scipy.stats as ss
 import json
 
@@ -14,9 +14,9 @@ sigma2=numpy.array([[2,0],[0,1]])
 mu3=[3,-3]
 sigma3=numpy.array([[1,0.3],[0.3,1]])
 
-data1=gData(mu1,sigma1,300)	
-data2=gData(mu2,sigma2,300)	
-data3=gData(mu3,sigma3,600)	
+data1=gData(mu1,sigma1,100)	
+data2=gData(mu2,sigma2,100)	
+data3=gData(mu3,sigma3,200)	
 
 
 data=data1+data2+data3
@@ -28,19 +28,24 @@ data=numpy.array(data)  #convert to array in numpy
 
 #print(data)
 
-N=1200
+
+#parameter initilization for EM
+N=400
 D=2
-K=3
+K=4  #the Number of classes 
 #randomlize mu
-mus=numpy.ones((K,D))
+
+mus=numpy.ones((K,D))/10
 for i in range(K):
 	mus[i]=mus[i]+numpy.random.rand(D)
+
+
 #covariance matrix must not be singular
 coMs=numpy.zeros((K,D,D))
 for i in range(K):
 	coMs[i]=numpy.identity(D)
 #print(coMs)
-pis=[0.3,0.3,0.4]
+pis=numpy.ones(K)/K
 
 
 plt.subplot(121)
@@ -51,7 +56,7 @@ logliks=list()
 xaxis=list()
 	
 for i in range(100):
-	(rmus,rcoMs,rpis,loglik)=GMM(data,mus,coMs,pis)
+	(rmus,rcoMs,rpis,loglik)=GMMiterate(data,mus,coMs,pis)
 	logliks.append(loglik)
 	xaxis.append(i)
 	plt.subplot(121)
@@ -80,16 +85,16 @@ for i in range(100):
 	
 	plt.clf()
 	
-
 	mus=rmus
 	coMs=rcoMs
 	pis=rpis
 	
 	plt.subplot(122)
-	plt.axis([0, 100, -7000, -3000])
+	plt.axis([0, 100, -2200, -1000])
 	plt.plot(xaxis,logliks)
 		
 				
+	#Kmeans clustering
 			
 
 
