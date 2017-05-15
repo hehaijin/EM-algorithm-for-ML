@@ -1,8 +1,6 @@
 #the data generation from first assignment in MATLAB
 import numpy as np
 
-
-
 def data(N,sigma):
 	w=np.ones(10)/np.sqrt(10)
 	a1=np.array([ 1 , 1 , 1,  1 , 1 ,-1, -1, -1, -1, -1])
@@ -24,7 +22,7 @@ def data(N,sigma):
 	X2=np.tile(X2,[2*N,1])
 	X=np.concatenate((X1,X2),axis=0)
 	
-	Y1=np.ones((4*2*N,1))
+	Y1=np.ones((4*2*N,1))    
 	Y2=(-1) *np.ones((4*2*N,1))
 	
 	Y=np.concatenate((Y1,Y2),axis=0)

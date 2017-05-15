@@ -32,7 +32,7 @@ data=numpy.array(data)  #convert to array in numpy
 #parameter initilization for EM
 N=400
 D=2
-K=4  #the Number of classes 
+K=3  #the Number of classes 
 #randomlize mu
 
 mus=numpy.ones((K,D))/10
@@ -56,7 +56,7 @@ logliks=list()
 xaxis=list()
 	
 for i in range(100):
-	(rmus,rcoMs,rpis,loglik)=GMMiterate(data,mus,coMs,pis)
+	(rmus,rcoMs,rpis,loglik,rik)=GMMiterate(data,mus,coMs,pis)
 	logliks.append(loglik)
 	xaxis.append(i)
 	plt.subplot(121)
@@ -92,6 +92,7 @@ for i in range(100):
 	plt.subplot(122)
 	plt.axis([0, 100, -2200, -1000])
 	plt.plot(xaxis,logliks)
+
 		
 				
 	#Kmeans clustering
@@ -101,7 +102,7 @@ for i in range(100):
 	
 	
 	
-	
+
 		
 		
 	
